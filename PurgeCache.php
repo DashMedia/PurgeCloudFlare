@@ -35,7 +35,7 @@ foreach ($contexts as $context) {
         }
         ob_flush();
         curl_close($ch);
-        if($devMode){
+        if($devMode != 1){
             $ch = curl_init("https://www.cloudflare.com/api_json.html");
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $devData);

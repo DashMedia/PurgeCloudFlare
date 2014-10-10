@@ -1,7 +1,9 @@
 PurgeCloudFlare
 ===============
 
+##Upgrade bug:
 
+Currently upgradeing the extra will cause the settings for `cf_api_key` and `cf_email` to be reset, this will be fixed at some point by using an actual build script instead of relying on the theme packager
 
 ##Setup Directions:
 

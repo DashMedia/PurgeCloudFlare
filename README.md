@@ -13,7 +13,7 @@ Goto System Settings and update the following:
 
 Please note that PurgeCloudFlare relies on your `http_host` setting to tell CloudFlare which domain/account to clear files from, if you're using multiple contexts they will each need this setting.
 
-Once you have done this, MODX will clear your CloudFlare Cache every time the system-wide cache is cleared, and will clear individual pages when they are saved from the MODX manager
+Once you have done this, MODX will clear your CloudFlare Cache every time the system-wide cache is cleared, and will clear individual pages (and the parents of the saved page) when they are saved from the MODX manager
 
 ##Ignoring a context
 

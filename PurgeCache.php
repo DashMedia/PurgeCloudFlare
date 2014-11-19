@@ -7,7 +7,10 @@ foreach ($contexts as $context) {
     $token =  $contextObj->getOption('cf_api_key');
     $email =  $contextObj->getOption('cf_email');
     $skip =  $contextObj->getOption('cf_skip') || 0;
-    $devMode =  $contextObj->getOption('cf_use_dev') || 1;
+    $devMode =  $contextObj->getOption('cf_use_dev');
+    if(empty($devMode)){
+        $devMode = 1;
+    }
     $data = array(
         "a" => "fpurge_ts", //action
         "tkn" => $token, //account token
@@ -35,7 +38,7 @@ foreach ($contexts as $context) {
         }
         ob_flush();
         curl_close($ch);
-        if($devMode != 1){
+        if($devMode == 1){
             $ch = curl_init("https://www.cloudflare.com/api_json.html");
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $devData);

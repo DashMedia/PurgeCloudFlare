@@ -7,10 +7,7 @@ foreach ($contexts as $context) {
     $token =  $contextObj->getOption('cf_api_key');
     $email =  $contextObj->getOption('cf_email');
     $skip =  $contextObj->getOption('cf_skip') || 0;
-    $devMode =  $contextObj->getOption('cf_use_dev');
-    if(empty($devMode)){
-        $devMode = 1;
-    }
+    $devMode =  intval($contextObj->getOption('cf_use_dev', [], 1));
     $data = array(
         "a" => "fpurge_ts", //action
         "tkn" => $token, //account token

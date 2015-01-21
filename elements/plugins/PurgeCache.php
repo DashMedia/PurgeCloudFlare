@@ -1,13 +1,22 @@
 <?php
+/**
+ * @name PurgeCache
+ * @description This is used to clear your CloudFlare cache when the clear cache button is pressed in the main site menu
+ * @PluginEvents OnBeforeCacheUpdate
+ */
+
+$core_path = $modx->getOption('cloudflare.core_path', null, MODX_CORE_PATH.'components/cloudflare/');
+include_once $core_path .'vendor/autoload.php';
+
 $contexts = $modx->getCollection('modContext', array('key:NOT IN' => array('mgr')));
 foreach ($contexts as $context) {
     // do stuff with each modContext object
     $contextObj = $modx->getContext($context->key);
     $domain = $contextObj->getOption('http_host');
-    $token =  $contextObj->getOption('cf_api_key');
-    $email =  $contextObj->getOption('cf_email');
-    $skip =  $contextObj->getOption('cf_skip') || 0;
-    $devMode =  intval($contextObj->getOption('cf_use_dev', [], 1));
+    $token =  $contextObj->getOption('cloudflare.api_key');
+    $email =  $contextObj->getOption('cloudflare.email_address');
+    $skip =  $contextObj->getOption('cloudflare.skip') || 0;
+    $devMode =  intval($contextObj->getOption('cloudflare.use_dev', [], 0));
     $data = array(
         "a" => "fpurge_ts", //action
         "tkn" => $token, //account token

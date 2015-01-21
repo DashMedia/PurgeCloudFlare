@@ -1,0 +1,38 @@
+==2.0.0pl2==
+- enable dev mode now defaults to 0, set context or system setting to 1 to enable
+
+==2.0.0pl==
+- WARNING: Updated system and context setting names
+- Migrate to repoman for package creation
+
+==1.2.3pl==
+
+- Fix error caused by browser plugin which changed the urls being referenced for the api
+
+==1.2.2pl==
+
+- Fix the enable dev mode flag
+
+==1.2.1pl==
+
+- All parents of saved document also purged from cloudflare cache on save
+
+==1.2.0pl==
+
+- Clearing site cache will now activate development mode for the domain
+
+- Add cf_use_dev context option
+
+==1.1.1pl==
+
+- Removed system settings from namespace as ThemePackagerComponent doesn't seem to fully-support them yet, this was preventing people from saving the system settings until they were moved into another namespace
+
+==1.1.0pl==
+
+- PugeSingeFile added, PurgeCloudFlare will now clear individual pages from the CloudFlare cache when they are saved from the manager (Yep, how cool is that)
+
+- Added support for multiple contexts
+
+==1.0-rc1==
+
+- Inital Commit

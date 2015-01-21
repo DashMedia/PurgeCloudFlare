@@ -1,0 +1,33 @@
+{
+    "name": "dashmedia/purgecloudflare",
+    "description": "",
+    "type": "modx-package",
+    "keywords": ["modx","repoman"],
+    "homepage": "https://github.com/DashMedia/PurgeCloudFlare",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Jason Carney",
+            "email": "jason@dashmedia.com.au",
+            "homepage" : "https://dashmedia.com.au/"
+        }        
+    ],
+    "support": {
+        "email": "jason@dashmedia.com.au",
+        "issues": "https://github.com/DashMedia/PurgeCloudFlare/issues",
+        "source": "https://github.com/DashMedia/PurgeCloudFlare.git"
+    },    
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "classmap":["model/"]
+    },
+    "extra": {
+        "package_name": "purgecloudflare",
+        "namespace": "cloudflare",
+        "version": "2.0.0",
+        "release": "pl2",
+        "category":"CloudFlare"
+    }
+}

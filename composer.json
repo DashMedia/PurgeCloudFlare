@@ -26,8 +26,8 @@
     "extra": {
         "package_name": "purgecloudflare",
         "namespace": "cloudflare",
-        "version": "2.0.0",
-        "release": "pl2",
+        "version": "2.0.2",
+        "release": "pl",
         "category":"CloudFlare"
     }
 }

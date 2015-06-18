@@ -1,3 +1,10 @@
+==2.0.2pl==
+- Fix for clearing single files clearing when domain starts with 'www'
+
+==2.0.1pl==
+- Fix for domains starting with 'www'
+- Allow use_dev to be set in system settings or context settings
+
 ==2.0.0pl2==
 - enable dev mode now defaults to 0, set context or system setting to 1 to enable
 

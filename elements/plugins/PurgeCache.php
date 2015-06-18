@@ -16,7 +16,14 @@ foreach ($contexts as $context) {
     $token =  $contextObj->getOption('cloudflare.api_key');
     $email =  $contextObj->getOption('cloudflare.email_address');
     $skip =  $contextObj->getOption('cloudflare.skip') || 0;
-    $devMode =  intval($contextObj->getOption('cloudflare.use_dev', [], 0));
+    $devMode =  intval($contextObj->getOption('cloudflare.use_dev'));
+
+    //check if host starts with 'www'
+    if(preg_match('/^www\.(.+)$/',$domain, $matches)){
+        //remove the www
+        $domain = $matches[1];
+    }
+
     $data = array(
         "a" => "fpurge_ts", //action
         "tkn" => $token, //account token

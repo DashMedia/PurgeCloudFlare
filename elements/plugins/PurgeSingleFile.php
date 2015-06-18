@@ -24,6 +24,13 @@ class CloudflarePageHandler
             $context = $modx->getContext($page_document->getOne('Context')->key);
             $skip = $context->getOption('cf_skip') || 0;
             $domain = $context->getOption('http_host');
+
+            //check if host starts with 'www'
+            if(preg_match('/^www\.(.+)$/',$domain, $matches)){
+                //remove the www
+                $domain = $matches[1];
+            }
+
             $data = array(
                 "a" => "zone_file_purge", //action
                 "tkn" => $token, //account token

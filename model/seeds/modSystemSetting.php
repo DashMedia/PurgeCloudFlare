@@ -20,5 +20,12 @@ return array(
 		'namespace' => 'cloudflare',
 		'area' 		=> 'cloudflare:default'
     ),
+    array(
+        'key'  		=>     'cloudflare.use_dev',
+		'value'		=>     '0',
+		'xtype'		=>     'textfield',
+		'namespace' => 'cloudflare',
+		'area' 		=> 'cloudflare:default'
+    ),
 );
 /*EOF*/

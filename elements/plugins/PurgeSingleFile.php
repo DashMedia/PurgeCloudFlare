@@ -28,9 +28,11 @@ if ($mode != 'new') {
     }
 }
 
-$http_host = str_replace("www.", "", $_SERVER['HTTP_HOST']);
+$context = $modx->getContext($resource->getOne('Context')->key);
+$skip = $context->getOption('cf_skip') || 0;
+$http_host = str_replace("www.", "", $context->getOption('http_host'));
 
-if ($page_url && $email && $token) {
+if ($skip != 1 && $page_url && $email && $token) {
     $headers = [
         'X-Auth-Email: ' . $email,
         'X-Auth-Key: ' . $token,

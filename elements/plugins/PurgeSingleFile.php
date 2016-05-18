@@ -1,79 +1,68 @@
 <?php
 /**
- * @name PurgeSingleFile
- * @description This is used to clear individual URL's from CloudFlare when they are saved, also clears parent pages
+ * @name BizenCloudFlarePurgeSingleFile
+ * @description This is used to clear individual URL's from CloudFlare when they are saved
  * @PluginEvents OnDocFormSave
+ * @author Massimiliano Monaro <massimiliano.monaro@gmail.com>
  */
 
-$core_path = $modx->getOption('cloudflare.core_path', null, MODX_CORE_PATH.'components/cloudflare/');
-include_once $core_path .'vendor/autoload.php';
+/*
+ * API Credentials
+ */
 
-class CloudflarePageHandler
-{
-    private $modx;
+$email = $modx->getOption('cloudflare.email_address');
+$token = $modx->getOption('cloudflare.api_key');
 
-    public function __construct($modx){
-        $this->modx = $modx;
+/*
+ * Get Zone ID
+ */
+
+if ($mode != 'new') {
+    $page_url = $modx->makeUrl($resource->get('id'), '', '', 'full');
+} else {
+    // resource created, clear starting at parent
+    $parent_id = $resource->get('parent');
+    if ($parent_id != 0) {
+        $parent = $modx->getObject('modResource', $parent_id);
+        $page_url = $modx->makeUrl($parent->get('id'), '', '', 'full');
     }
-    public function clear_page($page_document){
-        $modx = $this->modx;
-        $page_url = $modx->makeUrl($page_document->get('id'),'','','full');
-        if($page_url != '' && !is_null($page_url)){
-            $token = $modx->getOption('cloudflare.api_key');
-            $email = $modx->getOption('cloudflare.email_address');
-            $context = $modx->getContext($page_document->getOne('Context')->key);
-            $skip = $context->getOption('cf_skip') || 0;
-            $domain = $context->getOption('http_host');
-
-            //check if host starts with 'www'
-            if(preg_match('/^www\.(.+)$/',$domain, $matches)){
-                //remove the www
-                $domain = $matches[1];
-            }
-
-            $data = array(
-                "a" => "zone_file_purge", //action
-                "tkn" => $token, //account token
-                "email" => $email, //email address associated with account
-                "z" => $domain, //Target Domain
-                "url" =>  $page_url
-                );
-
-            if($skip != 1 && $domain != '' && !is_null($domain)){
-                $ch = curl_init("https://www.cloudflare.com/api_json.html");
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                $result = json_decode(curl_exec($ch));
-                if($result->result == 'success'){
-                    $modx->log(MODX_LOG_LEVEL_INFO,'File cleared from CloudFlare Cache: '.$page_url);
-                } else {
-                    $modx->log(MODX_LOG_LEVEL_ERROR,'Cloudflare:' . $result->msg);
-                }
-            }
-        }
-        $parent_id = $page_document->get('parent');
-        if($parent_id != 0){
-            //parent exists
-            $parent = $modx->getObject('modResource', $parent_id);
-            $this->clear_page($parent);
-        }
-    }   
 }
 
+$http_host = str_replace("www.", "", $_SERVER['HTTP_HOST']);
 
-$page_id = $resource->get('id');
-$cf_pageHandler = new CloudflarePageHandler($modx);
+if ($page_url && $email && $token) {
+    $headers = [
+        'X-Auth-Email: ' . $email,
+        'X-Auth-Key: ' . $token,
+        'Content-Type: application/json'
+    ];
+    
+    $ch = curl_init('https://api.cloudflare.com/client/v4/zones?name=' . $http_host . '&status=active&page=1&per_page=20&order=status&direction=desc&match=all');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    $result = json_decode(curl_exec($ch), true);
 
-if($mode != 'new'){
-    //resource updated, not created
-    $cf_pageHandler->clear_page($resource);
-} else {
-    //resource created, clear starting at parent
-    $parent_id = $resource->get('parent');
-    if($parent_id != 0){
-        //parent exists
-        $parent = $modx->getObject('modResource', $parent_id);
-        $cf_pageHandler->clear_page($parent);
+    curl_close($ch);
+
+    if ($result['success'] == 1) {
+        $zone_id = $result['result'][0]['id'];
+        $data = array("files" => array($page_url));
+
+        $ch = curl_init('https://api.cloudflare.com/client/v4/zones/' . $zone_id . '/purge_cache');
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        $result = json_decode(curl_exec($ch), true);
+
+        if ($result['success'] == 1) {
+            $modx->log(MODX_LOG_LEVEL_INFO, 'File cleared from CloudFlare cache: ' . $page_url);
+        } else {
+            $modx->log(MODX_LOG_LEVEL_ERROR, 'Cloudflare:' . $result['errors']);
+        }
+
+        curl_close($ch);
+    } else {
+        $modx->log(MODX_LOG_LEVEL_ERROR, 'Cloudflare:' . $result['errors']);
     }
 }

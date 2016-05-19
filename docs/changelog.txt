@@ -1,3 +1,6 @@
+==2.1.0pl==
+- Upgrade to CloudFlare API V4 (Thanks to @friimaind)
+
 ==2.0.2pl==
 - Fix for clearing single files clearing when domain starts with 'www'
 

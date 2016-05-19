@@ -1,9 +1,8 @@
 <?php
 /**
- * @name BizenCloudFlarePurgeSingleFile
+ * @name PurgeSingleFile
  * @description This is used to clear individual URL's from CloudFlare when they are saved
  * @PluginEvents OnDocFormSave
- * @author Massimiliano Monaro <massimiliano.monaro@gmail.com>
  */
 
 /*

@@ -4,7 +4,6 @@
  * @name PurgeCache
  * @description This is used to clear your CloudFlare cache when the clear cache button is pressed in the main site menu
  * @PluginEvents OnBeforeCacheUpdate
- * @author Massimiliano Monaro <massimiliano.monaro@gmail.com>
  */
 
 /*

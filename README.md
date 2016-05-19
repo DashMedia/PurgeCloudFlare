@@ -1,10 +1,6 @@
 PurgeCloudFlare
 ===============
 
-##Upgrade bug:
-
-Currently upgradeing the extra will cause the settings for `cf_api_key` and `cf_email` to be reset, this will be fixed at some point by using an actual build script instead of relying on the theme packager
-
 ##Setup Directions:
 
 Goto System Settings and update the following:
@@ -23,6 +19,6 @@ If you do not wish PurgeCloudFlare to attempt to clear the CloudFlare cache for 
 
 ##Development mode
 
-MODX will automatically enable development mode when clearing the global cache, this behaviour can be prevented by creating a context setting of `cf_use_dev` and setting it to 0 on any contexts you wish.
+You can make MODX automatically enable development mode when clearing the global cache, by creating a context setting of `cloudflare.use_dev` and setting it to 1 on any contexts you wish. (or the system setting, to make it do this by default)
 
 Created by Jason Carney - DashMedia.com.au

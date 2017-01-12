@@ -32,11 +32,11 @@ $skip = $context->getOption('cf_skip') || 0;
 $http_host = str_replace("www.", "", $context->getOption('http_host'));
 
 if ($skip != 1 && $page_url && $email && $token) {
-    $headers = [
+    $headers = array(
         'X-Auth-Email: ' . $email,
         'X-Auth-Key: ' . $token,
         'Content-Type: application/json'
-    ];
+    );
     
     $ch = curl_init('https://api.cloudflare.com/client/v4/zones?name=' . $http_host . '&status=active&page=1&per_page=20&order=status&direction=desc&match=all');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

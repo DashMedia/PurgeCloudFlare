@@ -25,11 +25,11 @@ foreach ($contexts as $context) {
     $http_host = str_replace("www.", "", $contextObj->getOption('http_host'));
     $dev_mode = intval($contextObj->getOption('cloudflare.use_dev'));
 
-    $headers = [
+    $headers = array(
         'X-Auth-Email: ' . $email,
         'X-Auth-Key: ' . $token,
         'Content-Type: application/json'
-    ];
+    );
 
     $ch = curl_init('https://api.cloudflare.com/client/v4/zones?name=' . $http_host . '&status=active&page=1&per_page=20&order=status&direction=desc&match=all');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

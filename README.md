@@ -1,7 +1,7 @@
 PurgeCloudFlare
 ===============
 
-##Setup Directions:
+## Setup Directions:
 
 Goto System Settings and update the following:
 
@@ -13,11 +13,11 @@ Please note that PurgeCloudFlare relies on your `http_host` setting to tell Clou
 
 Once you have done this, MODX will clear your CloudFlare Cache every time the system-wide cache is cleared, and will clear individual pages (and the parents of the saved page) when they are saved from the MODX manager
 
-##Ignoring a context
+## Ignoring a context
 
 If you do not wish PurgeCloudFlare to attempt to clear the CloudFlare cache for a specific context, add a context setting named `cf_skip` and set its value to `1`
 
-##Development mode
+## Development mode
 
 You can make MODX automatically enable development mode when clearing the global cache, by creating a context setting of `cloudflare.use_dev` and setting it to 1 on any contexts you wish. (or the system setting, to make it do this by default)
 

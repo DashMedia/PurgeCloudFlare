@@ -59,11 +59,11 @@ if ($skip != 1 && $page_url && $email && $token) {
         if ($result['success'] == 1) {
             $modx->log(MODX_LOG_LEVEL_INFO, 'File cleared from CloudFlare cache: ' . $page_url);
         } else {
-            $modx->log(MODX_LOG_LEVEL_ERROR, 'Cloudflare:' . $result['errors']);
+            $modx->log(MODX_LOG_LEVEL_ERROR, 'Cloudflare:' . print_r($result['errors'],true));
         }
 
         curl_close($ch);
     } else {
-        $modx->log(MODX_LOG_LEVEL_ERROR, 'Cloudflare:' . $result['errors']);
+        $modx->log(MODX_LOG_LEVEL_ERROR, 'Cloudflare:' . print_r($result['errors'],true));
     }
 }
